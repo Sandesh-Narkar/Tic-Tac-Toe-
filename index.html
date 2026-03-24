@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+
+    <aside class="panel panel-left">
+        <h2 class="panel-title">How It Works</h2>
+
+        <div class="step">
+            <div class="step-icon">1</div>
+            <div class="step-body">
+                <strong>Two Players</strong>
+                <p>Player <span class="tag x">X</span> and Player <span class="tag o">O</span> take turns clicking empty
+                    cells.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-icon">2</div>
+            <div class="step-body">
+                <strong>Win Condition</strong>
+                <p>Get <em>3 in a row</em> horizontally, vertically, or diagonally.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-icon">3</div>
+            <div class="step-body">
+                <strong>8 Win Patterns</strong>
+                <p>All 8 combinations are checked after every move.</p>
+            </div>
+        </div>
+
+        <div class="win-grid-demo">
+            <p class="demo-title">Win Example</p>
+            <div class="mini-board">
+                <div class="mc x">X</div>
+                <div class="mc x">X</div>
+                <div class="mc x win">X</div>
+                <div class="mc e"></div>
+                <div class="mc o">O</div>
+                <div class="mc e"></div>
+                <div class="mc o">O</div>
+                <div class="mc e"></div>
+                <div class="mc e"></div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-icon">4</div>
+            <div class="step-body">
+                <strong>Draw</strong>
+                <p>All 9 cells filled with no winner? It is a draw.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-icon">5</div>
+            <div class="step-body">
+                <strong>Scores Persist</strong>
+                <p>RESET clears the board. Scores keep counting across rounds!</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="center">
+        <div class="card">
+
+            <div class="msg-container" id="start-screen">
+                <h2 id="start-msg">Enter Names</h2>
+                <input type="text" id="p1-name-input" placeholder="Player 1  Name" class="name-in">
+                <input type="text" id="p2-name-input" placeholder="Player 2   Name" class="name-in">
+                <button id="start-game-btn">Start Game</button>
+            </div>
+
+            <div class="msg-container hide" id="msg-container">
+                <div id="msg">Winner!</div>
+                <button id="new-btn">New Game</button>
+            </div>
+
+            <h1 id="turn-label">Your Turn</h1>
+
+            <div class="game">
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+                <button class="box"></button>
+            </div>
+
+            <div class="score-row">
+                <div class="score-box">
+                    <span class="score-label" id="p1-label">Player 1 Score:</span>
+                    <span class="score-value" id="score-x">0</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-label" id="p2-label">Player 2 Score:</span>
+                    <span class="score-value" id="score-o">0</span>
+                </div>
+            </div>
+
+            <button class="reset" id="reset-btn">RESET</button>
+        </div>
+    </main>
+
+    <aside class="panel panel-right">
+        <h2 class="panel-title">The JS Logic</h2>
+
+        <div class="code-block">
+            <div class="code-label">Turn Tracking</div>
+            <pre><span class="c-key">let</span> <span class="c-var">turn0</span> = <span class="c-bool">true</span>;
+
+<span class="c-key">if</span> (<span class="c-var">turn0</span>) {
+  box.innerText = <span class="c-str">"O"</span>;
+  <span class="c-var">turn0</span> = <span class="c-bool">false</span>;
+} <span class="c-key">else</span> {
+  box.innerText = <span class="c-str">"X"</span>;
+  <span class="c-var">turn0</span> = <span class="c-bool">true</span>;
+}</pre>
+        </div>
+
+        <div class="code-block">
+            <div class="code-label">Win Patterns (8 total)</div>
+            <pre><span class="c-key">const</span> <span class="c-var">winPatterns</span> = [
+  [<span class="c-num">0,1,2</span>],
+  [<span class="c-num">3,4,5</span>],
+  [<span class="c-num">6,7,8</span>],
+  [<span class="c-num">0,3,6</span>],
+  [<span class="c-num">1,4,7</span>],
+  [<span class="c-num">2,5,8</span>],
+  [<span class="c-num">0,4,8</span>],
+  [<span class="c-num">2,4,6</span>],
+];</pre>
+        </div>
+
+        <div class="code-block">
+            <div class="code-label">Check Winner</div>
+            <pre><span class="c-key">for</span> (<span class="c-key">let</span> p <span class="c-key">of</span> <span class="c-var">winPatterns</span>) {
+  <span class="c-key">let</span> a = boxes[p[<span class="c-num">0</span>]].innerText;
+  <span class="c-key">let</span> b = boxes[p[<span class="c-num">1</span>]].innerText;
+  <span class="c-key">let</span> c = boxes[p[<span class="c-num">2</span>]].innerText;
+
+  <span class="c-key">if</span>(a !== <span class="c-str">""</span> && a===b && b===c){
+    <span class="c-fn">showWinner</span>(a);
+    <span class="c-key">return</span>;
+  }
+}</pre>
+        </div>
+
+        <div class="code-block">
+            <div class="code-label">Draw Detection</div>
+            <pre><span class="c-key">let</span> full = [...<span class="c-var">boxes</span>]
+  .<span class="c-fn">every</span>(b => b.innerText !== <span class="c-str">""</span>);
+
+<span class="c-key">if</span> (full) <span class="c-fn">showDraw</span>();</pre>
+        </div>
+
+        <div class="logic-legend">
+            <div class="ll-title">Color Legend:</div>
+            <span class="ll c-key">keyword</span>
+            <span class="ll c-var">variable</span>
+            <span class="ll c-fn">function()</span>
+            <span class="ll c-str">"string"</span>
+        </div>
+    </aside>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
